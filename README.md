@@ -1,6 +1,6 @@
 List of api
 
-get: 
+get: /n
 http://melvin.southeastasia.cloudapp.azure.com/api/categorylist
 select all catergory list
 
