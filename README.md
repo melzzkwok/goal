@@ -3,7 +3,6 @@ List of api
 get:
 
 http://melvin.southeastasia.cloudapp.azure.com/api/categorylist
-
 select all catergory list
 
 get: 
