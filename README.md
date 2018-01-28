@@ -73,3 +73,8 @@ select user_id, user_name where user_name = user_name and user_password = user_p
 params: user_name
         user_password
         
+get: 
+http://melvin.southeastasia.cloudapp.azure.com/api/userall
+select all user 
+To view user_id, user_name and user_password - for testing only
+        
