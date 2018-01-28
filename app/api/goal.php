@@ -144,7 +144,7 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
 
 });
 
-$app->post('/api/goal/update', function(Request $request, Response $response){
+$app->put('/api/goal/update', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
   $goal_description = $request->getParam('goal_description');
@@ -208,7 +208,7 @@ $app->post('/api/goal/update', function(Request $request, Response $response){
 
 });
 
-$app->post('/api/goal/updategoalcurrentunit', function(Request $request, Response $response){
+$app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
   $goal_current_unit = $request->getParam('goal_current_unit');
