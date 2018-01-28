@@ -1,6 +1,7 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+// session_start();
 
 $app->get('/api/userall', function() {
   $sql = "SELECT * FROM goal.user ORDER BY user_id";
@@ -43,11 +44,13 @@ $app->post("/api/user/login", function (Request $request, Response $response) {
  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
  		$db = null;
- 		//echo json_encode($user);
+ 		//echo json_encode($result);
 
  		if($result){
- 			$particular = ["user_id" => $result[0]->user_id, "user_name" => $result[0]->user_name, "user_name" => $result[0]->user_name];
+ 			$particular = ["user_id" => $result[0]->user_id, "user_name" => $result[0]->user_name];
             echo json_encode($particular);
+            // $_SESSION = ["user_id" => $result[0]->user_id];
+            // echo json_encode($_SESSION);
  		}
  		else {
           echo json_encode(["status" => "INVALID", "user_name" => $user_name, "user_password" => $user_password]);

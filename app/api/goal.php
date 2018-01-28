@@ -190,8 +190,8 @@ $app->post('/api/goal/update', function(Request $request, Response $response){
     $stmt->bindParam(':goal_startdate', $goal_startdate);
     $stmt->bindParam(':goal_enddate', $goal_enddate);
     $stmt->bindParam(':goal_reminder', $goal_reminder);
-    $stmt->bindParam(':goal_complete_pts', $goal_complete_pts);
-    $stmt->bindParam(':goal_complete', $goal_complete);
+    // $stmt->bindParam(':goal_complete_pts', $goal_complete_pts);
+    // $stmt->bindParam(':goal_complete', $goal_complete);
     // $stmt->bindParam(':activity_id', $activity_id);
     // $stmt->bindParam(':user_id', $user_id);
 
