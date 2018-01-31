@@ -234,7 +234,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
 });
 
-$app->put('/api/goal/updategoalcomplete', function(Request $request, Response $response){
+$app->put('/api/goal/setgoalcompete', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
   //$goal_current_unit = $request->getParam('goal_current_unit');
