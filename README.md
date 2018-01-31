@@ -32,8 +32,7 @@ params: goal_id
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/add
 insert goal where goal_id = goal_id
-params: goal_id
-        goal_description
+params: goal_description
         goal_unit
         goal_current_unit
         goal_unitType
