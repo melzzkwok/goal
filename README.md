@@ -39,8 +39,7 @@ params: goal_id
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/add
 insert goal where goal_id = goal_id
-params: goal_id
-        goal_description
+params: goal_description
         goal_unit
         goal_current_unit
         goal_unitType
@@ -74,20 +73,20 @@ http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
 update goal_current_unit where goal_id = goal_id
 params: goal_id
         goal_current_unit
-![updategoalpoint](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updategoalpoint.PNG)
+![updatecurrentunit](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updatecurrentunit.PNG)
 
 put: 
-http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalpoint
 update goal_current_unit where goal_id = goal_id
 params: goal_id
-        goal_current_unit
-![updatecurrentunit](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updatecurrentunit.PNG)
+        goal_complete_pts
+![updategoalpoint](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updategoalpoint.PNG)
  
 put: 
-http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/stecompletegoal
 update goal_current_unit where goal_id = goal_id
 params: goal_id
-        goal_current_unit
+        goal_complete
 ![setcompletegoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/setcompletegoal.PNG)
 
 post: 
