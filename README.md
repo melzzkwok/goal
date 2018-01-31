@@ -48,7 +48,7 @@ params: goal_id
         user_id
         
 put: 
-http://melvin.southeastasia.cloudapp.azure.com/api/goal/update
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/editgoal
 update goal where goal_id = goal_id
 params: goal_description
         goal_unit
@@ -59,6 +59,7 @@ params: goal_description
         goal_startdate
         goal_enddate
         goal_reminder
+![alt text](screenshot/editgoal.png "Description goes here")
 
 put: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
