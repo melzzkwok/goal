@@ -171,7 +171,7 @@ $app->put('/api/goal/updategoalpoint', function(Request $request, Response $resp
 
 
 	 $sql = "UPDATE goal.goal SET
-	 goal_complete_pts = :goal_complete_pts_update
+	 goal_complete_pts = :goal_complete_pts
    WHERE goal_id = :goal_id";
 
 	 try {
@@ -188,7 +188,8 @@ $app->put('/api/goal/updategoalpoint', function(Request $request, Response $resp
 
  		$stmt->execute();
 
- 		echo '"NOTICE":{"text": "goal Updated"}';
+    echo '"NOTICE":{"text": "goal Updated"}';
+ 		echo 'goal_complete_pts=',$goal_complete_pts;
 
 	 }
 	 catch(PDOException $e)
@@ -223,7 +224,8 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
  		$stmt->execute();
 
- 		echo '"NOTICE":{"text": "goal Updated"}';
+    echo '"NOTICE":{"text": "goal Updated"}';
+ 		echo 'goal_current_unit=',$goal_current_unit;
 
 	 }
 	 catch(PDOException $e)
@@ -259,6 +261,7 @@ $app->put('/api/goal/setgoalcompete', function(Request $request, Response $respo
  		$stmt->execute();
 
  		echo '"NOTICE":{"text": "goal Updated"}';
+    echo 'goal_complete=1';
 
 	 }
 	 catch(PDOException $e)
