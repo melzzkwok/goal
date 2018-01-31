@@ -50,8 +50,7 @@ params: goal_id
 put: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/update
 update goal where goal_id = goal_id
-params: goal_id
-        goal_description
+params: goal_description
         goal_unit
         goal_current_unit
         goal_unitType
