@@ -59,7 +59,7 @@ params: goal_description
         goal_startdate
         goal_enddate
         goal_reminder
-(screenshot/editgoal.png "Description goes here")
+![addgoal](https://user-images.githubusercontent.com/24829858/35620342-e115ffc6-06bb-11e8-9c9b-1e36a2cb66f5.PNG)
 
 put: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
