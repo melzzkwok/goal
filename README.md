@@ -46,9 +46,10 @@ params: goal_id
         goal_complete
         activity_id
         user_id
+![addgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/addgoal.PNG)
         
 put: 
-http://melvin.southeastasia.cloudapp.azure.com/api/goal/update
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/editgoal
 update goal where goal_id = goal_id
 params: goal_description
         goal_unit
@@ -59,6 +60,7 @@ params: goal_description
         goal_startdate
         goal_enddate
         goal_reminder
+![addgoal](https://user-images.githubusercontent.com/24829858/35620342-e115ffc6-06bb-11e8-9c9b-1e36a2cb66f5.PNG)
 
 put: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
