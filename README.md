@@ -83,7 +83,7 @@ params: goal_id
 ![updategoalpoint](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updategoalpoint.PNG)
  
 put: 
-http://melvin.southeastasia.cloudapp.azure.com/api/goal/stecompletegoal
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/setcompletegoal
 update goal_current_unit where goal_id = goal_id
 params: goal_id
         goal_complete
