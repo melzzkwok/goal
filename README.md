@@ -46,7 +46,7 @@ params: goal_id
         goal_complete
         activity_id
         user_id
-![addgoal](https://github.com/melzzkwok/goal/my-edit/screenshot/addgoal.PNG)
+![addgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/addgoal.PNG)
         
 put: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/editgoal
