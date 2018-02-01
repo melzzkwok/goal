@@ -33,13 +33,13 @@ select all activity list where cat_id = 5
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/user
 select goal where goal_id = goal_id and goal_complete = 0
-params: goal_id
+params: user_id
 ![usergoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/usergoal.PNG)
 
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/userhistory
 select goal where goal_id = goal_id and goal_complete = 1
-params: goal_id
+params: user_id
 ![usergoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userhistory.PNG)
 
 post: 
