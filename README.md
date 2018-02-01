@@ -32,15 +32,15 @@ select all activity list where cat_id = 5
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/user  
-select goal where goal_id = goal_id and goal_complete = 0  
+select goal where goal_id = goal_id and goal_complete = 0 //0 = goal not completed  
 params: user_id  
 ![usergoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/usergoal.PNG)
 
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/userhistory  
-select goal where goal_id = goal_id and goal_complete = 1  
+select goal where goal_id = goal_id and goal_complete = 1 //1 = goal completed  
 params: user_id  
-![usergoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userhistory.PNG)
+![userhistory](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userhistory.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/add  
@@ -77,15 +77,16 @@ params: goal_description,
 
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit  
-update goal.goal_current_unit and user.rewardtotal_point where goal_id = goal_id and user_id = user_id  
-//goal_current_unit will be added and incremented into rewardtotal_point  
+update goal_current_unit where goal_id = goal_id  
 params: goal_id, 
         goal_current_unit
 ![updatecurrentunit](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updatecurrentunit.PNG)
 
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalpoint  
-update goal_current_unit where goal_id = goal_id  
+update goal.goal_complete_pts and user.rewardtotal_point where goal_id = goal_id and user_id = user_id  
+//goal_complete_pts will be added and incremented into rewardtotal_point  
+//rewardtotal_point = rewardtotal_point + goal_complete_pts
 params: goal_id, 
         goal_complete_pts
 ![updategoalpoint](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updategoalpoint.PNG)
@@ -93,9 +94,18 @@ params: goal_id,
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/setcompletegoal  
 update goal_current_unit where goal_id = goal_id  
+//set goal_complete to 1(goal completed)  
 params: goal_id, 
         goal_complete
 ![setcompletegoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/setcompletegoal.PNG)
+
+put:  
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalreadd  
+update goal_current_unit where goal_id = goal_id  
+//set goal_complete to 0(goal not completed)  
+params: goal_id, 
+        goal_complete
+![readdgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/readdgoal.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/user/login  

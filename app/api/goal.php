@@ -343,3 +343,34 @@ $app->put('/api/goal/setgoalcompete', function(Request $request, Response $respo
 	 }
 
 });
+
+$app->put('/api/goal/goalreadd', function(Request $request, Response $response){
+
+  $goal_id = $request->getParam('goal_id');
+
+	 $sql = "UPDATE goal.goal SET
+   goal_complete = '0'
+   WHERE goal_id = :goal_id";
+
+	 try {
+	 	//GET DB OBJECT
+	 	$db = new db();
+ 		//connect
+ 		$db = $db->connect();
+
+ 		$stmt = $db->prepare($sql);
+
+    $stmt->bindParam(':goal_id', $goal_id);
+
+ 		$stmt->execute();
+
+    echo 'goal_complete:0';
+
+	 }
+	 catch(PDOException $e)
+	 {
+	 	echo '"error": {"text": '.$e->getMessage().'}';
+
+	 }
+
+});
