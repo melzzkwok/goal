@@ -45,6 +45,7 @@ params: user_id
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/add
 insert goal where goal_id = goal_id
+// return response goal_id
 params: goal_description
         goal_unit
         goal_current_unit
