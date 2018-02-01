@@ -240,42 +240,43 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
 
 });
 
-$app->put('/api/goal/updategoalpoint', function(Request $request, Response $response){
+$app->post("/api/goal/updategoalpoint", function (Request $request, Response $response) {
 
-  $goal_id = $request->getParam('goal_id');
-  $goal_complete_pts = $request->getParam('goal_complete_pts');
+    $goal_id = $request->getParam('goal_id');
+    $goal_complete_pts = $request->getParam('goal_complete_pts');
 
-  $select = "SELECT goal.goal_id, goal.user_id, goal.goal_complete_pts, user.rewardpoint_total FROM goal.goal JOIN goal.user WHERE goal.user_id = user.user_id AND goal.goal_id = $goal_id AND goal_complete = '0'";
+    $select = "SELECT goal.goal_id, goal.user_id, goal.goal_complete_pts, user.rewardpoint_total FROM goal.goal JOIN goal.user WHERE goal.user_id = user.user_id AND goal.goal_id = $goal_id";
 
-  try {
-    //GET DB OBJECT
-    $db = new db();
-    //connect
-    $db = $db->connect();
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
 
-    $stmt = $db->query($select);
+  		$stmt = $db->query($select);
 
-    $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    $rewardpoint_total = $result[0]->rewardpoint_total;
-    $rewardpoint_total = $rewardpoint_total + $goal_complete_pts;
+      $rewardpoint_total = $result[0]->rewardpoint_total;
+      $rewardpoint_total = $rewardpoint_total + $goal_complete_pts;
 
-    $sql = "UPDATE goal.goal JOIN goal.user ON goal.user_id = user.user_id SET
-    goal.goal_complete_pts = $goal_complete_pts,
-    user.rewardpoint_total = $rewardpoint_total
-    WHERE goal.goal_id = $goal_id AND goal.user_id = user.user_id";
+      $sql = "UPDATE goal.goal JOIN goal.user ON goal.user_id = user.user_id SET
+      goal.goal_complete_pts = $goal_complete_pts,
+      user.rewardpoint_total = $rewardpoint_total
+      WHERE goal.goal_id = $goal_id AND goal.user_id = user.user_id";
 
-    $stmt1 = $db->query($sql);
-    echo '"rewardpoint_total":';
-    echo json_encode($rewardpoint_total);
+      $stmt1 = $db->query($sql);
 
-    $db = null;
-  }
-  catch(PDOException $e)
-  {
-   echo '"error": {"text": '.$e->getMessage().'}';
+      echo '"rewardpoint_total":';
+      echo json_encode($rewardpoint_total);
 
-  }
+      $db = null;
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+
+    }
 
 });
 
