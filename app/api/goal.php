@@ -6,7 +6,34 @@ $app->post("/api/goal/user", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
 
-    $select = "SELECT * FROM goal.goal WHERE user_id = $user_id";
+    $select = "SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_complete = '0'";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt = $db->query($select);
+
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  		$db = null;
+  		echo json_encode($result);
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+
+    }
+
+});
+
+$app->post("/api/goal/userhistory", function (Request $request, Response $response) {
+
+    $user_id = $request->getParam('user_id');
+
+    $select = "SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_complete = '1'";
 
     try {
       //GET DB OBJECT
@@ -54,6 +81,60 @@ $app->get('/api/goal/user/{id}', function($request) {
 
 });
 
+$app->post("/api/goal/countprogress", function (Request $request, Response $response) {
+
+    $user_id = $request->getParam('user_id');
+
+    $select = "SELECT COUNT(goal_id) FROM goal.goal WHERE user_id = $user_id AND goal_complete = '0'";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt = $db->query($select);
+
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  		$db = null;
+  		echo json_encode($result);
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+
+    }
+
+});
+
+$app->post("/api/goal/countcompleted", function (Request $request, Response $response) {
+
+    $user_id = $request->getParam('user_id');
+
+    $select = "SELECT COUNT(goal_id) FROM goal.goal WHERE user_id = $user_id AND goal_complete = '1'";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt = $db->query($select);
+
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  		$db = null;
+  		echo json_encode($result);
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+
+    }
+
+});
+
 $app->post('/api/goal/add', function(Request $request, Response $response){
 
 	$goal_description = $request->getParam('goal_description');
@@ -66,7 +147,6 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
   $goal_reminder = $request->getParam('goal_reminder');
   $activity_id = $request->getParam('activity_id');
   $user_id = $request->getParam('user_id');
-
 
 	 $sql = "INSERT INTO goal.goal(goal_description, goal_unit, goal_current_unit, goal_unitType, goal_frequency, goal_priority, goal_startdate, goal_enddate, goal_reminder, goal_complete_pts, goal_complete, activity_id, user_id)
    VALUES (:goal_description, :goal_unit, '0', :goal_unitType, :goal_frequency, :goal_priority, :goal_startdate, :goal_enddate, :goal_reminder, '0', '0', :activity_id, :user_id)";
@@ -90,10 +170,11 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
     $stmt->bindParam(':activity_id', $activity_id);
     $stmt->bindParam(':user_id', $user_id);
 
-
  		$stmt->execute();
+    $last_id = $db->lastInsertId();
 
- 		echo '"NOTICE":{"text": "goal Added"}';
+ 		echo '"goal_id":';
+    echo json_encode ($last_id);
 
 	 }
 	 catch(PDOException $e)
@@ -101,7 +182,6 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
 	 	echo '{"error": {"text": '.$e->getMessage().'}';
 
 	 }
-
 
 });
 
@@ -116,8 +196,6 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
   $goal_startdate = $request->getParam('goal_startdate');
   $goal_enddate = $request->getParam('goal_enddate');
   $goal_reminder = $request->getParam('goal_reminder');
-
-
 
 	 $sql = "UPDATE goal.goal SET
 	 goal_description = :goal_description ,
@@ -166,37 +244,38 @@ $app->put('/api/goal/updategoalpoint', function(Request $request, Response $resp
 
   $goal_id = $request->getParam('goal_id');
   $goal_complete_pts = $request->getParam('goal_complete_pts');
-  // $goal_complete_pts_update = ++$goal_complete_pts;
 
+  $select = "SELECT goal.goal_id, goal.user_id, goal.goal_complete_pts, user.rewardpoint_total FROM goal.goal JOIN goal.user WHERE goal.user_id = user.user_id AND goal.goal_id = $goal_id AND goal_complete = '0'";
 
+  try {
+    //GET DB OBJECT
+    $db = new db();
+    //connect
+    $db = $db->connect();
 
-	 $sql = "UPDATE goal.goal SET
-	 goal_complete_pts = :goal_complete_pts
-   WHERE goal_id = :goal_id";
+    $stmt = $db->query($select);
 
-	 try {
-	 	//GET DB OBJECT
-	 	$db = new db();
- 		//connect
- 		$db = $db->connect();
+    $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
- 		$stmt = $db->prepare($sql);
+    $rewardpoint_total = $result[0]->rewardpoint_total;
+    $rewardpoint_total = $rewardpoint_total + $goal_complete_pts;
 
-    $stmt->bindParam(':goal_id', $goal_id);
-    $stmt->bindParam(':goal_complete_pts', $goal_complete_pts);
-    // $stmt->bindParam(':goal_complete_pts_update', $goal_complete_pts_update);
+    $sql = "UPDATE goal.goal JOIN goal.user ON goal.user_id = user.user_id SET
+    goal.goal_complete_pts = $goal_complete_pts,
+    user.rewardpoint_total = $rewardpoint_total
+    WHERE goal.goal_id = $goal_id AND goal.user_id = user.user_id";
 
- 		$stmt->execute();
+    $stmt1 = $db->query($sql);
+    echo '"rewardpoint_total":';
+    echo json_encode($rewardpoint_total);
 
-    echo '"NOTICE":{"text": "goal Updated"}';
- 		echo 'goal_complete_pts=',$goal_complete_pts;
+    $db = null;
+  }
+  catch(PDOException $e)
+  {
+   echo '"error": {"text": '.$e->getMessage().'}';
 
-	 }
-	 catch(PDOException $e)
-	 {
-	 	echo '"error": {"text": '.$e->getMessage().'}';
-
-	 }
+  }
 
 });
 
@@ -205,11 +284,9 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
   $goal_id = $request->getParam('goal_id');
   $goal_current_unit = $request->getParam('goal_current_unit');
 
-
-
-	 $sql = "UPDATE goal.goal SET
-   goal_current_unit = :goal_current_unit
-   WHERE goal_id = :goal_id";
+  $sql = "UPDATE goal.goal SET
+  goal_current_unit = :goal_current_unit
+  WHERE goal_id = :goal_id";
 
 	 try {
 	 	//GET DB OBJECT
@@ -224,8 +301,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
  		$stmt->execute();
 
-    echo '"NOTICE":{"text": "goal Updated"}';
- 		echo 'goal_current_unit=',$goal_current_unit;
+ 		echo 'goal_current_unit:',$goal_current_unit;
 
 	 }
 	 catch(PDOException $e)
@@ -239,9 +315,6 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 $app->put('/api/goal/setgoalcompete', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
-  //$goal_current_unit = $request->getParam('goal_current_unit');
-
-
 
 	 $sql = "UPDATE goal.goal SET
    goal_complete = '1'
@@ -256,12 +329,10 @@ $app->put('/api/goal/setgoalcompete', function(Request $request, Response $respo
  		$stmt = $db->prepare($sql);
 
     $stmt->bindParam(':goal_id', $goal_id);
-    //$stmt->bindParam(':goal_current_unit', $goal_current_unit);
 
  		$stmt->execute();
 
- 		echo '"NOTICE":{"text": "goal Updated"}';
-    echo 'goal_complete=1';
+    echo 'goal_complete:1';
 
 	 }
 	 catch(PDOException $e)
