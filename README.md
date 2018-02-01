@@ -94,7 +94,7 @@ params: goal_id,
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/setcompletegoal  
 update goal_current_unit where goal_id = goal_id  
-//set goal_complete to 1(goal completed)
+//set goal_complete to 1(goal completed)  
 params: goal_id, 
         goal_complete
 ![setcompletegoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/setcompletegoal.PNG)
@@ -102,7 +102,7 @@ params: goal_id,
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalreadd  
 update goal_current_unit where goal_id = goal_id  
-//set goal_complete to 0(goal not completed)
+//set goal_complete to 0(goal not completed)  
 params: goal_id, 
         goal_complete
 ![goalreadd](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalreadd.PNG)
