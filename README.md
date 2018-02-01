@@ -1,13 +1,13 @@
-List of api
+## List of api
 
-get:
-http://melvin.southeastasia.cloudapp.azure.com/api/categorylist
-select all catergory list
+get:  
+http://melvin.southeastasia.cloudapp.azure.com/api/categorylist  
+select all catergory list  
 ![catlist](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/categorylist.PNG)
 
-get: 
-http://melvin.southeastasia.cloudapp.azure.com/api/activitylist/1
-select all activity list where cat_id = 1
+get:  
+http://melvin.southeastasia.cloudapp.azure.com/api/activitylist/1  
+select all activity list where cat_id = 1  
 ![actlist1](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/activitylist1.PNG)
 
 get: 
