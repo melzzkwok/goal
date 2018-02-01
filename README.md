@@ -105,7 +105,7 @@ update goal_current_unit where goal_id = goal_id
 //set goal_complete to 0(goal not completed)  
 params: goal_id, 
         goal_complete
-![goalreadd](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalreadd.PNG)
+![readdgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/readdgoal.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/user/login  
