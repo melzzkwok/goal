@@ -32,13 +32,20 @@ select all activity list where cat_id = 5
 
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/user
-select goal where goal_id = goal_id
-params: goal_id
+select goal where goal_id = goal_id and goal_complete = 0
+params: user_id
 ![usergoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/usergoal.PNG)
+
+post: 
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/userhistory
+select goal where goal_id = goal_id and goal_complete = 1
+params: user_id
+![usergoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userhistory.PNG)
 
 post: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/add
 insert goal where goal_id = goal_id
+// return response goal_id
 params: goal_description
         goal_unit
         goal_current_unit
@@ -70,7 +77,8 @@ params: goal_description
 
 put: 
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit
-update goal_current_unit where goal_id = goal_id
+update goal.goal_current_unit and user.rewardtotal_point where goal_id = goal_id and user_id = user_id
+//goal_current_unit will be added and incremented into rewardtotal_point
 params: goal_id
         goal_current_unit
 ![updatecurrentunit](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updatecurrentunit.PNG)
