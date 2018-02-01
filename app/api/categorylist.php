@@ -50,3 +50,36 @@ $app->get('/api/categorylist/{id}', function($request) {
   }
 
 });
+
+$app->post('/api/category/add', function(Request $request, Response $response){
+
+	$cat_img = $request->getParam('cat_img');
+
+
+	 $sql = "INSERT INTO goal.category_list(cat_img)
+   VALUES (:cat_img)";
+
+	 try {
+	 	//GET DB OBJECT
+	 	$db = new db();
+ 		//connect
+ 		$db = $db->connect();
+
+ 		$stmt = $db->prepare($sql);
+
+ 		$stmt->bindParam(':cat_img', $cat_img);
+
+
+ 		$stmt->execute();
+
+ 		echo '"NOTICE":{"text": "image Added"}';
+
+	 }
+	 catch(PDOException $e)
+	 {
+	 	echo '{"error": {"text": '.$e->getMessage().'}';
+
+	 }
+
+
+});

@@ -2,7 +2,7 @@
 class db{
   private $host = "localhost";
   private $user = "root";
-  private $pass = "root";
+  private $pass = "";
   private $db_name = "goal";
   //$mysqli = new mysqli($host, $user, $pass, $db_name);
   public function connect(){
