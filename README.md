@@ -87,7 +87,7 @@ put:
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalpoint  
 update goal.goal_complete_pts and user.rewardtotal_point where goal_id = goal_id and user_id = user_id  
 //goal_complete_pts will be added and incremented into rewardtotal_point  
-//rewardtotal_point = rewardtotal_point + goal_complete_pts
+//rewardtotal_point = rewardtotal_point + goal_complete_pts  
 params: goal_id, 
         goal_complete_pts
 ![updategoalpoint](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updategoalpoint.PNG)
