@@ -56,7 +56,7 @@ insert goal where goal_id = goal_id
         goal_enddate, 
         goal_reminder, 
         activity_id, 
-        user_id**
+        user_id**  
 ![addgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/addgoal.PNG)
         
 put:  
@@ -70,14 +70,14 @@ update goal where goal_id = goal_id
         goal_priority, 
         goal_startdate, 
         goal_enddate, 
-        goal_reminder** 
+        goal_reminder**  
 ![editgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/editgoal.PNG)
 
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit  
 update goal_current_unit where goal_id = goal_id  
 **params: goal_id, 
-        goal_current_unit**
+        goal_current_unit**  
 ![updatecurrentunit](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updatecurrentunit.PNG)
 
 put:  
@@ -86,7 +86,7 @@ update goal.goal_complete_pts and user.rewardtotal_point where goal_id = goal_id
 //goal_complete_pts will be added and incremented into rewardtotal_point  
 //rewardtotal_point = rewardtotal_point + goal_complete_pts  
 **params: goal_id, 
-        goal_complete_pts**
+        goal_complete_pts**  
 ![updategoalpoint](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/updategoalpoint.PNG)
  
 put:  
@@ -94,16 +94,16 @@ http://melvin.southeastasia.cloudapp.azure.com/api/goal/setcompletegoal
 update goal_current_unit where goal_id = goal_id  
 //set goal_complete to 1(goal completed)  
 **params: goal_id, 
-        goal_complete**
+        goal_complete**  
 ![setcompletegoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/setcompletegoal.PNG)
 
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalreadd  
 update goal_current_unit where goal_id = goal_id  
 //set goal_complete to 0(goal not completed)  
-//re add goal that was completed
+//re add goal that was completed  
 **params: goal_id, 
-        goal_complete**
+        goal_complete**  
 ![readdgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/readdgoal.PNG)
 
 post:  
@@ -126,7 +126,7 @@ select count goal_id where user_id = user_id and goal_complete = 0
 select count goal_id where user_id = user_id and goal_complete = 1  
 select count goal_id where user_id = user_id  
 select count rewardpoint_total where user_id = user_id  
-//count goals in progress, goals completed, total goals, total reward points
+//count goals in progress, goals completed, total goals, total reward points  
 **params: user_id**  
 ![countall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/countall.PNG)
 
@@ -134,12 +134,12 @@ post:
 http://melvin.southeastasia.cloudapp.azure.com/api/user/login  
 select user_id, user_name where user_name = user_name and user_password = user_password  
 **params: user_name, 
-        user_password**
+        user_password**  
 ![userlogin](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userlogin.PNG)
 
 get:  
 http://melvin.southeastasia.cloudapp.azure.com/api/userall  
 select all user  
-To view user_id, user_name and user_password - for testing only
+To view user_id, user_name and user_password - for testing only  
 ![userall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userall.PNG)
         
