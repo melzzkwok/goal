@@ -112,14 +112,14 @@ params: goal_id,
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/progressgraph  
 insert progress.progress_unit, progress.goal_id into progress where progress.goal_id = goal.goal_id and progress.progress_unit = goal.goal_current_unit and goal.goal_complete = 0  
-// to be called automatically at 00.00 to store the current progress of the goal of that day.
+// to be called automatically at 00.00 to store the current progress of the goal of that day  
 params: user_id  
 ![progressgraph](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/progressgraph.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalgraph  
 select progress.progress_date, progress.progress_unit, progress.goal_id from progress where goal.goal_complete = 0  
-// to plot the graph progress of each goal.
+// to plot the graph progress of each goal  
 params: user_id  
 ![goalgraph](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalgraph.PNG)
 
