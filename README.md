@@ -108,6 +108,15 @@ params: goal_id,
 ![readdgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/readdgoal.PNG)
 
 post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/user/countall  
+select count goal_id where user_id = user_id and goal_complete = 0    
+select count goal_id where user_id = user_id and goal_complete = 1  
+select count goal_id where user_id = user_id  
+select count rewardpoint_total where user_id = user_id  
+params: user_id  
+![countall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/countall.PNG)
+
+post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/user/login  
 select user_id, user_name where user_name = user_name and user_password = user_password  
 params: user_name, 
