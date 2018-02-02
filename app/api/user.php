@@ -58,3 +58,52 @@ $app->post("/api/user/login", function (Request $request, Response $response) {
         }
 
 });
+
+$app->post("/api/user/countall", function (Request $request, Response $response) {
+
+    $user_id = $request->getParam('user_id');
+
+    $select1 = "SELECT goal_id FROM goal.goal WHERE user_id = $user_id AND goal_complete = '0'";
+    $select2 = "SELECT goal_id FROM goal.goal WHERE user_id = $user_id AND goal_complete = '1'";
+    $select3 = "SELECT goal_id FROM goal.goal WHERE user_id = $user_id";
+    $select4 = "SELECT rewardpoint_total FROM goal.user WHERE user_id = $user_id";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt1 = $db->query($select1);
+      $stmt2 = $db->query($select2);
+      $stmt3 = $db->query($select3);
+      $stmt4 = $db->query($select4);
+      $result = $stmt4->fetchAll(PDO::FETCH_OBJ);
+  		$db = null;
+
+      $count1 = $stmt1->rowCount();
+      $count2 = $stmt2->rowCount();
+      $count3 = $stmt3->rowCount();
+      $reward = $result[0]->rewardpoint_total;
+
+      echo '{"progress":"';
+      echo json_encode($count1);
+      echo '",';
+      echo '"completed":"';
+      echo json_encode($count2);
+      echo '",';
+      echo '"total":"';
+      echo json_encode($count3);
+      echo '",';
+      echo '"totalrewardpoint":';
+      echo json_encode($reward);
+      echo '}';
+
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+
+    }
+
+});

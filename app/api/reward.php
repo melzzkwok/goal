@@ -32,7 +32,7 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
 
   $user_id = $request->getParam('user_id');
 
-  $sql = "SELECT * FROM goal.user_reward WHERE user_id = $user_id";
+  $sql = "SELECT userReward_id, reward_id FROM goal.user_reward WHERE user_id = $user_id";
 
   try {
     //GET DB OBJECT
@@ -52,32 +52,5 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
    echo '"error": {"text": '.$e->getMessage().'}';
 
   }
-
-});
-
-$app->post("/api/reward/countreward", function (Request $request, Response $response) {
-
-    $user_id = $request->getParam('user_id');
-
-    $select = "SELECT COUNT(userReward_id) FROM goal.user_reward WHERE user_id = $user_id";
-
-    try {
-      //GET DB OBJECT
-      $db = new db();
-      //connect
-      $db = $db->connect();
-
-  		$stmt = $db->query($select);
-
-  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-  		$db = null;
-  		echo json_encode($result);
-    }
-    catch(PDOException $e)
-    {
-     echo '"error": {"text": '.$e->getMessage().'}';
-
-    }
 
 });
