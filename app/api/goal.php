@@ -81,60 +81,6 @@ $app->get('/api/goal/user/{id}', function($request) {
 
 });
 
-$app->post("/api/goal/countprogress", function (Request $request, Response $response) {
-
-    $user_id = $request->getParam('user_id');
-
-    $select = "SELECT COUNT(goal_id) FROM goal.goal WHERE user_id = $user_id AND goal_complete = '0'";
-
-    try {
-      //GET DB OBJECT
-      $db = new db();
-      //connect
-      $db = $db->connect();
-
-  		$stmt = $db->query($select);
-
-  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-  		$db = null;
-  		echo json_encode($result);
-    }
-    catch(PDOException $e)
-    {
-     echo '"error": {"text": '.$e->getMessage().'}';
-
-    }
-
-});
-
-$app->post("/api/goal/countcompleted", function (Request $request, Response $response) {
-
-    $user_id = $request->getParam('user_id');
-
-    $select = "SELECT COUNT(goal_id) FROM goal.goal WHERE user_id = $user_id AND goal_complete = '1'";
-
-    try {
-      //GET DB OBJECT
-      $db = new db();
-      //connect
-      $db = $db->connect();
-
-  		$stmt = $db->query($select);
-
-  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-  		$db = null;
-  		echo json_encode($result);
-    }
-    catch(PDOException $e)
-    {
-     echo '"error": {"text": '.$e->getMessage().'}';
-
-    }
-
-});
-
 $app->post('/api/goal/add', function(Request $request, Response $response){
 
 	$goal_description = $request->getParam('goal_description');
@@ -257,20 +203,26 @@ $app->post("/api/goal/updategoalpoint", function (Request $request, Response $re
 
   		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-      $rewardpoint_total = $result[0]->rewardpoint_total;
-      $rewardpoint_total = $rewardpoint_total + $goal_complete_pts;
+      if ($result == null){
+        echo '"error": no result';
+      }
+      else {
+        $rewardpoint_total = $result[0]->rewardpoint_total;
+        $rewardpoint_total = $rewardpoint_total + $goal_complete_pts;
 
-      $sql = "UPDATE goal.goal JOIN goal.user ON goal.user_id = user.user_id SET
-      goal.goal_complete_pts = $goal_complete_pts,
-      user.rewardpoint_total = $rewardpoint_total
-      WHERE goal.goal_id = $goal_id AND goal.user_id = user.user_id";
+        $sql = "UPDATE goal.goal JOIN goal.user ON goal.user_id = user.user_id SET
+        goal.goal_complete_pts = $goal_complete_pts,
+        user.rewardpoint_total = $rewardpoint_total
+        WHERE goal.goal_id = $goal_id AND goal.user_id = user.user_id";
 
-      $stmt1 = $db->query($sql);
+        $stmt1 = $db->query($sql);
 
-      echo '"rewardpoint_total":';
-      echo json_encode($rewardpoint_total);
+        echo '"rewardpoint_total":';
+        echo json_encode($rewardpoint_total);
 
-      $db = null;
+        $db = null;
+      }
+
     }
     catch(PDOException $e)
     {
@@ -372,5 +324,74 @@ $app->put('/api/goal/goalreadd', function(Request $request, Response $response){
 	 	echo '"error": {"text": '.$e->getMessage().'}';
 
 	 }
+
+});
+
+$app->post("/api/goal/progressgraph", function (Request $request, Response $response) {
+
+    $user_id = $request->getParam('user_id');
+
+    $select = "SELECT goal.goal_id, goal.goal_current_unit FROM goal.goal WHERE user_id = $user_id AND goal_complete = '0'";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt = $db->query($select);
+
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      if ($result == null){
+        echo '"error": no result';
+      }
+      else {
+        $count = $stmt->rowCount();
+        // echo json_encode($count);
+        for($i=0; $i<=($count-1); $i++){
+          $goal_id = $result[$i]->goal_id;
+          //echo json_encode($goal_id);
+          $progress_unit = $result[$i]->goal_current_unit;
+          //echo json_encode($progress_unit);
+          $sql = "INSERT INTO goal.progress(progress_unit, goal_id) VALUES ($progress_unit, $goal_id)";
+
+          $stmt1 = $db->prepare($sql);
+          $stmt1->execute();
+          //echo "done:",$i," ";
+        }
+      }
+      echo '"NOTICE":{"progress updated"}';
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+    }
+
+});
+
+$app->post("/api/goal/goalgraph", function (Request $request, Response $response) {
+
+    $user_id = $request->getParam('user_id');
+
+    $select = "SELECT progress.progress_date, progress.progress_unit, progress.goal_id FROM goal.progress JOIN goal.goal WHERE goal.goal_id = progress.goal_id AND goal.user_id = $user_id AND goal.goal_complete = '0'";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt = $db->query($select);
+
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  		$db = null;
+  		echo json_encode($result);
+    }
+    catch(PDOException $e)
+    {
+     echo '"error": {"text": '.$e->getMessage().'}';
+
+    }
 
 });
