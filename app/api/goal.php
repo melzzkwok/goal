@@ -23,7 +23,7 @@ $app->post("/api/goal/user", function (Request $request, Response $response) {
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+     echo '{"error":'.$e->getMessage().'}';
 
     }
 
@@ -50,7 +50,7 @@ $app->post("/api/goal/userhistory", function (Request $request, Response $respon
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+     echo '{"error":'.$e->getMessage().'}';
 
     }
 
@@ -76,7 +76,7 @@ $app->get('/api/goal/user/{id}', function($request) {
   }
   catch(PDOException $e)
   {
-    echo '{"error": {"text": '.$e->getMessage().'}';
+    echo '{"error":'.$e->getMessage().'}';
   }
 
 });
@@ -119,13 +119,14 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
  		$stmt->execute();
     $last_id = $db->lastInsertId();
 
- 		echo '"goal_id":';
+ 		echo '{"goal_id":';
     echo json_encode ($last_id);
+    echo '}';
 
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '{"error": {"text": '.$e->getMessage().'}';
+	 	 echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
@@ -176,11 +177,12 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
  		$stmt->execute();
 
  		echo '"NOTICE":{"text": "goal Updated"}';
+    echo '{"error": {"error": '.$e->getMessage().'}';
 
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '"error": {"text": '.$e->getMessage().'}';
+	 	echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
@@ -204,7 +206,7 @@ $app->post("/api/goal/updategoalpoint", function (Request $request, Response $re
   		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
       if ($result == null){
-        echo '"error": no result';
+        echo '{"error":"no result"}';
       }
       else {
         $rewardpoint_total = $result[0]->rewardpoint_total;
@@ -217,8 +219,9 @@ $app->post("/api/goal/updategoalpoint", function (Request $request, Response $re
 
         $stmt1 = $db->query($sql);
 
-        echo '"rewardpoint_total":';
+        echo '{"rewardpoint_total":"';
         echo json_encode($rewardpoint_total);
+        echo '"}';
 
         $db = null;
       }
@@ -226,7 +229,7 @@ $app->post("/api/goal/updategoalpoint", function (Request $request, Response $re
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+      echo '{"error":'.$e->getMessage().'}';
 
     }
 
@@ -254,12 +257,14 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
  		$stmt->execute();
 
- 		echo 'goal_current_unit:',$goal_current_unit;
+ 		echo '{"goal_current_unit":';
+    echo json_encode($goal_current_unit);
+    echo '"}';
 
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '"error": {"text": '.$e->getMessage().'}';
+	 	echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
@@ -285,12 +290,12 @@ $app->put('/api/goal/setgoalcompete', function(Request $request, Response $respo
 
  		$stmt->execute();
 
-    echo 'goal_complete:1';
+    echo '{"goal_complete":"1"}';
 
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '"error": {"text": '.$e->getMessage().'}';
+	 	echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
@@ -316,12 +321,12 @@ $app->put('/api/goal/goalreadd', function(Request $request, Response $response){
 
  		$stmt->execute();
 
-    echo 'goal_complete:0';
+    echo '{"goal_complete":"0"}';
 
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '"error": {"text": '.$e->getMessage().'}';
+	 	echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
@@ -343,7 +348,7 @@ $app->post("/api/goal/progressgraph", function (Request $request, Response $resp
 
   		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
       if ($result == null){
-        echo '"error": no result';
+        echo '{"error":"no result"}';
       }
       else {
         $count = $stmt->rowCount();
@@ -360,11 +365,11 @@ $app->post("/api/goal/progressgraph", function (Request $request, Response $resp
           //echo "done:",$i," ";
         }
       }
-      echo '"NOTICE":{"progress updated"}';
+      echo '{"NOTICE":"progress updated"}';
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+     echo '{"error":'.$e->getMessage().'}';
     }
 
 });
@@ -390,7 +395,7 @@ $app->post("/api/goal/goalgraph", function (Request $request, Response $response
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+     echo '{"error":'.$e->getMessage().'}';
 
     }
 

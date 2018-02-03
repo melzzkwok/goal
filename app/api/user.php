@@ -22,7 +22,7 @@ $app->get('/api/userall', function() {
   }
   catch(PDOException $e)
   {
-   echo '{"error": {"text": '.$e->getMessage().'}';
+   echo '{"error":'.$e->getMessage().'}';
 
   }
 
@@ -102,7 +102,7 @@ $app->post("/api/user/countall", function (Request $request, Response $response)
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+     echo '{"error":'.$e->getMessage().'}';
 
     }
 

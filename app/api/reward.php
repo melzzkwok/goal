@@ -21,7 +21,7 @@ $app->get('/api/reward/rewardall', function(Request $request, Response $response
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '{"error": {"text": '.$e->getMessage().'}';
+	 	echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
@@ -49,7 +49,7 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
   }
   catch(PDOException $e)
   {
-   echo '"error": {"text": '.$e->getMessage().'}';
+   echo '{"error":'.$e->getMessage().'}';
 
   }
 
