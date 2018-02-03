@@ -91,19 +91,17 @@ update goal.goal_complete_pts and user.rewardtotal_point where goal_id = goal_id
  
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/setcompletegoal  
-update goal_current_unit where goal_id = goal_id  
-//set goal_complete to 1(goal completed)  
-**params: goal_id, 
-        goal_complete**  
+update goal_complete where goal_id = goal_id  
+//set goal_complete to 1(goal completed)  
+**params: goal_id**  
 ![setcompletegoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/setcompletegoal.PNG)
 
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalreadd  
-update goal_current_unit where goal_id = goal_id  
+update goal_complete where goal_id = goal_id  
 //set goal_complete to 0(goal not completed)  
 //re add goal that was completed  
-**params: goal_id, 
-        goal_complete**  
+**params: goal_id**  
 ![readdgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/readdgoal.PNG)
 
 post:  
