@@ -21,7 +21,7 @@ $app->get('/api/categorylist', function() {
  }
   catch(PDOException $e)
   {
-    echo '{"error": {"text": '.$e->getMessage().'}';
+    echo '{"error":'.$e->getMessage().'}';
 
   }
 
@@ -46,7 +46,7 @@ $app->get('/api/categorylist/{id}', function($request) {
   }
   catch(PDOException $e)
   {
-    echo '{"error": {"text": '.$e->getMessage().'}';
+    echo '{"error":'.$e->getMessage().'}';
   }
 
 });
@@ -72,12 +72,12 @@ $app->post('/api/category/add', function(Request $request, Response $response){
 
  		$stmt->execute();
 
- 		echo '"NOTICE":{"text": "image Added"}';
+ 		echo '{"NOTICE":"image Added"}';
 
 	 }
 	 catch(PDOException $e)
 	 {
-	 	echo '{"error": {"text": '.$e->getMessage().'}';
+	 	echo '{"error":'.$e->getMessage().'}';
 
 	 }
 
