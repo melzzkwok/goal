@@ -2,6 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+//display current goal in progress
 $app->post("/api/goal/user", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
@@ -29,6 +30,7 @@ $app->post("/api/goal/user", function (Request $request, Response $response) {
 
 });
 
+//display completed goal from history
 $app->post("/api/goal/userhistory", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
@@ -81,6 +83,7 @@ $app->get('/api/goal/user/{id}', function($request) {
 
 });
 
+//add goal
 $app->post('/api/goal/add', function(Request $request, Response $response){
 
 	$goal_description = $request->getParam('goal_description');
@@ -132,6 +135,35 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
 
 });
 
+//display the goal to be edit with the values
+$app->post("/api/goal/goaltoedit", function (Request $request, Response $response) {
+
+    $goal_id = $request->getParam('goal_id');
+
+    $select = "SELECT * FROM goal.goal WHERE goal_id = $goal_id";
+
+    try {
+      //GET DB OBJECT
+      $db = new db();
+      //connect
+      $db = $db->connect();
+
+  		$stmt = $db->query($select);
+
+  		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  		$db = null;
+  		echo json_encode($result);
+    }
+    catch(PDOException $e)
+    {
+     echo '{"error":'.$e->getMessage().'}';
+
+    }
+
+});
+
+//update the edited goal values
 $app->put('/api/goal/editgoal', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
@@ -188,6 +220,7 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
 
 });
 
+//award user when goal is acheived with goal complete point and add the value into user's total reward point
 $app->post("/api/goal/updategoalpoint", function (Request $request, Response $response) {
 
     $goal_id = $request->getParam('goal_id');
@@ -235,6 +268,7 @@ $app->post("/api/goal/updategoalpoint", function (Request $request, Response $re
 
 });
 
+//update goal current unit
 $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
@@ -270,6 +304,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
 });
 
+//set goal to completed
 $app->put('/api/goal/setgoalcompete', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
@@ -301,6 +336,7 @@ $app->put('/api/goal/setgoalcompete', function(Request $request, Response $respo
 
 });
 
+//re add the goal from history
 $app->put('/api/goal/goalreadd', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
@@ -332,6 +368,7 @@ $app->put('/api/goal/goalreadd', function(Request $request, Response $response){
 
 });
 
+//insert the current unit of goal into graph
 $app->post("/api/goal/progressgraph", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
@@ -374,6 +411,7 @@ $app->post("/api/goal/progressgraph", function (Request $request, Response $resp
 
 });
 
+//get the values of the graph
 $app->post("/api/goal/goalgraph", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
