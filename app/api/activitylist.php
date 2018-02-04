@@ -21,7 +21,7 @@ $app->get('/api/activitylist', function() {
   }
   catch(PDOException $e)
   {
-   echo '{"error": {"text": '.$e->getMessage().'}';
+   echo '{"error":'.$e->getMessage().'}';
 
   }
 
@@ -47,7 +47,7 @@ $app->get('/api/activitylist/{id}', function($request) {
   }
   catch(PDOException $e)
   {
-    echo '{"error": {"text": '.$e->getMessage().'}';
+    echo '{"error":'.$e->getMessage().'}';
   }
 
 });

@@ -22,12 +22,13 @@ $app->get('/api/userall', function() {
   }
   catch(PDOException $e)
   {
-   echo '{"error": {"text": '.$e->getMessage().'}';
+   echo '{"error":'.$e->getMessage().'}';
 
   }
 
 });
 
+//user login
 $app->post("/api/user/login", function (Request $request, Response $response) {
     //$response = new Response();
     $user_name = $request->getParam('user_name');
@@ -59,6 +60,7 @@ $app->post("/api/user/login", function (Request $request, Response $response) {
 
 });
 
+//count goal in progress, goal completed, total goal, user's total reward point
 $app->post("/api/user/countall", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
@@ -102,7 +104,7 @@ $app->post("/api/user/countall", function (Request $request, Response $response)
     }
     catch(PDOException $e)
     {
-     echo '"error": {"text": '.$e->getMessage().'}';
+     echo '{"error":'.$e->getMessage().'}';
 
     }
 
