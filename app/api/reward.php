@@ -98,7 +98,7 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
           $stmt4 = $db->prepare($sql1);
           $stmt4->execute();
 
-          $sql2 = "SELECT user_reward.userReward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id";
+          $sql2 = "SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id";
           $stmt5 = $db->query($sql2);
           $result5 = $stmt5->fetchAll(PDO::FETCH_OBJ);
           echo json_encode($result5);
@@ -112,7 +112,7 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
       }
 
       else {
-        $sql3 = "SELECT user_reward.userReward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id";
+        $sql3 = "SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id";
         $stmt6 = $db->query($sql3);
         $result6 = $stmt6->fetchAll(PDO::FETCH_OBJ);
         echo json_encode($result6);
