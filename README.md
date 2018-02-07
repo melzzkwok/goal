@@ -127,8 +127,9 @@ When user select the reward. Check if user have already unlock the reward.
 **params: user_id, 
         reward_id**  
   
-if total reward point is enough to unlock the reward and if user have already unlock the reward.  
+if total reward point is enough to unlock the reward or if user have already unlock the reward.  
 ![redeemreward1](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/redeemreward1.PNG)  
+  
 if total reward point is not to unlock the reward.  
 ![redeemreward2](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/redeemreward2.PNG)  
 
