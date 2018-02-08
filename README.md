@@ -119,6 +119,21 @@ select progress.progress_date, progress.progress_unit, progress.goal_id from pro
 ![goalgraph](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalgraph.PNG)
 
 post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/redeemreward  
+When user select the reward. Check if user have already unlock the reward.  
+//if have unlocked the reward, display the reward details  
+//else check if total reward point is enough to unlock the reward  
+//if total reward point is more than the required reward point, display the unlocked reward  
+**params: user_id, 
+        reward_id**  
+  
+if total reward point is enough to unlock the reward or if user have already unlock the reward.  
+![redeemreward1](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/redeemreward1.PNG)  
+  
+if total reward point is not to unlock the reward.  
+![redeemreward2](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/redeemreward2.PNG)  
+
+post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/user/countall  
 select count goal_id where user_id = user_id and goal_complete = 0    
 select count goal_id where user_id = user_id and goal_complete = 1  
