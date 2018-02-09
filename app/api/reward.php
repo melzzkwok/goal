@@ -127,3 +127,5 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
   }
 
 });
+
+?>

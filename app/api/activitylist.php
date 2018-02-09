@@ -51,3 +51,5 @@ $app->get('/api/activitylist/{id}', function($request) {
   }
 
 });
+
+?>
