@@ -483,7 +483,7 @@ $app->post("/api/goal/goalgraph", function (Request $request, Response $response
         for($i=0; $i<=($count1-1); $i++){
           $goal_id = $result1[$i]->goal_id;
           //echo json_encode($goal_id);
-          $select2 = "SELECT progress.progress_date, progress.progress_unit
+          $select2 = "SELECT DATE(progress.progress_date) as progress_date, progress.progress_unit
           FROM goal.progress JOIN goal.goal WHERE goal.goal_id = progress.goal_id AND progress.goal_id = $goal_id AND goal.user_id = $user_id AND goal.goal_complete = '0'";
           $stmt2 = $db->query($select2);
           $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
