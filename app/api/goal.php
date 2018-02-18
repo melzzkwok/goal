@@ -438,7 +438,6 @@ $app->post("/api/goal/progressgraph", function (Request $request, Response $resp
           $progress_unit = $result[$i]->goal_current_unit;
           //echo json_encode($progress_unit);
           $sql = "INSERT INTO goal.progress(progress_unit, goal_id) VALUES ($progress_unit, $goal_id)";
-          //$sql = "INSERT INTO goal.progress(progress_unit, progress_date, goal_id) VALUES ($progress_unit, $current_date, $goal_id)";
 
           $stmt1 = $db->prepare($sql);
           $stmt1->execute();

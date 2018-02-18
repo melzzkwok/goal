@@ -32,7 +32,7 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
 
   $user_id = $request->getParam('user_id');
 
-  $sql = "SELECT userReward_id, reward_id FROM goal.user_reward WHERE user_id = $user_id";
+  $sql = "SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id";
 
   try {
     //GET DB OBJECT
