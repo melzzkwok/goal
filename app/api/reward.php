@@ -32,7 +32,8 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
 
   $user_id = $request->getParam('user_id');
 
-  $sql = "SELECT userReward_id, reward_id FROM goal.user_reward WHERE user_id = $user_id";
+  $sql = "SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img
+	FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id ORDER BY goal_reward.reward_id";
 
   try {
     //GET DB OBJECT
@@ -127,3 +128,73 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
   }
 
 });
+
+//reward progress bar for user to view the progress to unlock next reward
+$app->post('/api/reward/nextreward', function(Request $request, Response $response){
+
+  $user_id = $request->getParam('user_id');
+
+  $select1 = "SELECT * FROM goal.goal_reward ORDER BY reward_id";
+  $select2 = "SELECT rewardpoint_total FROM goal.user WHERE user_id = $user_id";
+
+  try {
+    //GET DB OBJECT
+    $db = new db();
+    //connect
+    $db = $db->connect();
+
+    $stmt1 = $db->query($select1);
+    $stmt2 = $db->query($select2);
+
+    $result1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
+    $result2 = $stmt2->fetchAll(PDO::FETCH_OBJ);
+    $rewardpoint_total = $result2[0]->rewardpoint_total;
+
+    $count1 = $stmt1->rowCount();
+
+    for($i=0; $i<=($count1-1); $i++){
+      $reward_unlock_pts = $result1[$i]->reward_unlock_pts;
+
+      if ($i > 0) {
+        $pre_reward_unlock_pts = $result1[$i-1]->reward_unlock_pts;
+
+        if ($reward_unlock_pts >= $rewardpoint_total) {
+          // echo "reward unlocked points: ";
+          // echo json_encode ($reward_unlock_pts);
+          // echo "reward total points: ";
+          // echo json_encode ($rewardpoint_total);
+          $point_till_unlock = $reward_unlock_pts - $rewardpoint_total;
+          $reward_to_reward = $reward_unlock_pts - $pre_reward_unlock_pts;
+          $reward_progress = $reward_to_reward - $point_till_unlock;
+
+          if ($reward_progress < 0) {
+            $reward_progress = 0;
+          }
+
+          echo '{"current_reward_progress":"';
+          echo json_encode ($reward_progress);
+          echo '",';
+          echo '"reward_progress":"';
+          echo json_encode ($reward_to_reward);
+          echo '",';
+					echo '"points_till_unlock":"';
+          echo json_encode ($point_till_unlock);
+					echo '",';
+					echo '"rewardpoint_total":';
+          echo json_encode ($rewardpoint_total);
+          echo '}';
+          break;
+        }
+      }
+
+    }
+  }
+  catch(PDOException $e)
+  {
+   echo '{"error":'.$e->getMessage().'}';
+
+  }
+
+});
+
+?>

@@ -49,9 +49,11 @@ $app->post("/api/user/login", function (Request $request, Response $response) {
 
  		if($result){
  			$particular = ["user_id" => $result[0]->user_id, "user_name" => $result[0]->user_name];
-            echo json_encode($particular);
+            // echo json_encode($particular);
             // $_SESSION = ["user_id" => $result[0]->user_id];
             // echo json_encode($_SESSION);
+            $response->withHeader('Content-Type', 'application/json');
+            $response->write(json_encode($particular));
  		}
  		else {
           echo json_encode(["status" => "INVALID", "user_name" => $user_name, "user_password" => $user_password]);
@@ -109,3 +111,5 @@ $app->post("/api/user/countall", function (Request $request, Response $response)
     }
 
 });
+
+?>

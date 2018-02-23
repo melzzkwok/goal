@@ -14,5 +14,8 @@ require_once('../app/api/reward.php');
 require_once('../app/api/dummy.php');
 require_once('../app/api/dummytest.php');
 require_once('../app/api/user.php');
+require_once('../app/api/users.php');
 
 $app->run();
+
+?>
