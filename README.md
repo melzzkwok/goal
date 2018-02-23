@@ -143,6 +143,37 @@ When user select the reward. Check if user have already unlock the reward.
 //if have unlocked the reward, display the reward details  
 //else check if total reward point is enough to unlock the reward  
 //if total reward point is more than the required reward point, display the unlocked reward  
+```
+SELECT rewardpoint_total FROM goal.user WHERE user_id = $user_id
+SELECT reward_unlock_pts FROM goal.goal_reward WHERE reward_id = $reward_id
+SELECT userReward_id FROM goal.user_reward WHERE user_id = $user_id AND reward_id = $reward_id
+
+if ($count == null){
+      echo '{"error":"no result"}'
+    }
+    else {
+        if ($reward_unlock_pts <= $rewardpoint_total){
+          INSERT INTO goal.user_reward(user_id, reward_id) VALUES ($user_id, $reward_id)
+          SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, 
+          goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND 
+          user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
+          echo '{"NOTICE":"reward redeem"}'
+        }
+
+        else {
+          echo '{"NOTICE":"not enough points to redeem"}'
+        }
+
+      }
+
+      else {
+        SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, 
+        goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND 
+        user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
+        echo '{"NOTICE":"reward already redeemed"}'
+      }
+    }
+```
 **params: user_id, 
         reward_id**  
   
