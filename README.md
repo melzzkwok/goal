@@ -134,6 +134,20 @@ if total reward point is not to unlock the reward.
 ![redeemreward2](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/redeemreward2.PNG)  
 
 post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/nextreward  
+```
+SELECT * FROM goal.goal_reward ORDER BY reward_id  
+SELECT rewardpoint_total FROM goal.user WHERE user_id = $user_id
+
+$point_till_unlock = $reward_unlock_pts - $rewardpoint_total;
+$reward_to_reward = $reward_unlock_pts - $pre_reward_unlock_pts;
+$reward_progress = $reward_to_reward - $point_till_unlock;
+```
+//reward progress bar for user to view the progress to unlock next reward  
+**params: user_id**  
+![nextreward](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/nextreward.PNG)
+
+post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/user/countall  
 select count goal_id where user_id = user_id and goal_complete = 0    
 select count goal_id where user_id = user_id and goal_complete = 1  
