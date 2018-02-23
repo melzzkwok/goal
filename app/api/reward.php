@@ -169,14 +169,19 @@ $app->post('/api/reward/nextreward', function(Request $request, Response $respon
           if ($reward_progress < 0) {
             $reward_progress = 0;
           }
-          // echo "points till unlock: ";
-          // echo json_encode ($point_till_unlock);
+
           echo '{"current_reward_progress":"';
           echo json_encode ($reward_progress);
           echo '",';
           echo '"reward_progress":"';
           echo json_encode ($reward_to_reward);
-          echo '"}';
+          echo '",';
+					echo '"points_till_unlock":"';
+          echo json_encode ($point_till_unlock);
+					echo '",';
+					echo '"rewardpoint_total":';
+          echo json_encode ($rewardpoint_total);
+          echo '}';
           break;
         }
       }
