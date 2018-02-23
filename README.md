@@ -118,6 +118,25 @@ select progress.progress_date, progress.progress_unit, progress.goal_id from pro
 **params: user_id**  
 ![goalgraph](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalgraph.PNG)
 
+get:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/rewardall  
+```
+SELECT * FROM goal.goal_reward ORDER BY reward_id
+```
+// display all rewards user have unlocked  
+
+![rewardall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/rewardall.PNG)
+
+post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/userreward  
+```
+SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img
+FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id ORDER BY goal_reward.reward_id
+```
+// display all rewards user have unlocked  
+**params: user_id**  
+![userreward](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userreward.PNG)
+
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/reward/redeemreward  
 When user select the reward. Check if user have already unlock the reward.  
@@ -132,6 +151,20 @@ if total reward point is enough to unlock the reward or if user have already unl
   
 if total reward point is not to unlock the reward.  
 ![redeemreward2](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/redeemreward2.PNG)  
+
+post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/nextreward  
+```
+SELECT * FROM goal.goal_reward ORDER BY reward_id  
+SELECT rewardpoint_total FROM goal.user WHERE user_id = $user_id
+
+$point_till_unlock = $reward_unlock_pts - $rewardpoint_total;
+$reward_to_reward = $reward_unlock_pts - $pre_reward_unlock_pts;
+$reward_progress = $reward_to_reward - $point_till_unlock;
+```
+//reward progress bar for user to view the progress to unlock next reward  
+**params: user_id**  
+![nextreward](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/nextreward.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/user/countall  
