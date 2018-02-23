@@ -383,7 +383,7 @@ $app->put('/api/goal/goalreadd', function(Request $request, Response $response){
   $goal_id = $request->getParam('goal_id');
 
 	 $sql = "UPDATE goal.goal SET
-   goal_complete = '0'
+   goal_complete = '0', goal_current_unit = '0'
    WHERE goal_id = :goal_id";
 
 	 try {
