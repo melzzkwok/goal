@@ -118,6 +118,25 @@ select progress.progress_date, progress.progress_unit, progress.goal_id from pro
 **params: user_id**  
 ![goalgraph](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalgraph.PNG)
 
+get:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/rewardall  
+```
+SELECT * FROM goal.goal_reward ORDER BY reward_id
+```
+// display all rewards user have unlocked  
+
+![rewardall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/rewardall.PNG)
+
+post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/userreward  
+```
+SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img
+FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id ORDER BY goal_reward.reward_id
+```
+// display all rewards user have unlocked  
+**params: user_id**  
+![userreward](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userreward.PNG)
+
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/reward/redeemreward  
 When user select the reward. Check if user have already unlock the reward.  
