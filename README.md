@@ -154,7 +154,9 @@ if ($count == null){
     else {
         if ($reward_unlock_pts <= $rewardpoint_total){
           INSERT INTO goal.user_reward(user_id, reward_id) VALUES ($user_id, $reward_id)
-          SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description,           goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
+          SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, 
+          goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND 
+          user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
           echo '{"NOTICE":"reward redeem"}'
         }
 
@@ -165,7 +167,9 @@ if ($count == null){
       }
 
       else {
-        SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
+        SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, 
+        goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND 
+        user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
         echo '{"NOTICE":"reward already redeemed"}'
       }
     }
