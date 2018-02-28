@@ -60,6 +60,12 @@ insert goal where goal_id = goal_id
 ![addgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/addgoal.PNG)
         
 put:  
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/goaltoedit  
+select goal where goal_id = goal_id  
+**params: goal_id**  
+![goaltoedit](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goaltoedit.PNG)
+
+put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/editgoal  
 update goal where goal_id = goal_id  
 **params: goal_description, 

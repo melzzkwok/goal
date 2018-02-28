@@ -36,7 +36,8 @@ $app->post("/api/goal/userhistory", function (Request $request, Response $respon
 
     $user_id = $request->getParam('user_id');
 
-    $select = "SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_complete = '1'";
+    $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, goal.user_id
+    FROM goal.goal JOIN goal.activity_list WHERE goal.user_id = $user_id AND goal.activity_id = activity_list.activity_id AND goal.goal_complete = '1'";
 
     try {
       //GET DB OBJECT
@@ -141,7 +142,8 @@ $app->post("/api/goal/goaltoedit", function (Request $request, Response $respons
 
     $goal_id = $request->getParam('goal_id');
 
-    $select = "SELECT * FROM goal.goal WHERE goal_id = $goal_id";
+    $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, goal.user_id
+    FROM goal.goal JOIN goal.activity_list WHERE goal.goal_id = $goal_id AND goal.activity_id = activity_list.activity_id";
 
     try {
       //GET DB OBJECT
