@@ -2,6 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+// display all rewards
 $app->get('/api/reward/rewardall', function(Request $request, Response $response){
 	 $sql = "SELECT * FROM goal.goal_reward ORDER BY reward_id";
 
@@ -103,7 +104,7 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
           $stmt5 = $db->query($sql2);
           $result5 = $stmt5->fetchAll(PDO::FETCH_OBJ);
           echo json_encode($result5);
-          echo '{"NOTICE":"reward redeem"}';
+          //echo '{"NOTICE":"reward redeem"}';
         }
 
         else {
@@ -117,7 +118,7 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
         $stmt6 = $db->query($sql3);
         $result6 = $stmt6->fetchAll(PDO::FETCH_OBJ);
         echo json_encode($result6);
-        echo '{"NOTICE":"reward already redeemed"}';
+        //echo '{"NOTICE":"reward already redeemed"}';
       }
     }
   }
