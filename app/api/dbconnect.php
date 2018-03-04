@@ -2,12 +2,12 @@
 class db{
   private $host = "localhost";
   private $user = "root";
-  private $pass = "";
+  private $pass = "root";
   private $db_name = "goal";
 
   private $host2 = "localhost";
   private $user2 = "root";
-  private $pass2 = "";
+  private $pass2 = "root";
   private $db_name2 = "HMS";
   //$mysqli = new mysqli($host, $user, $pass, $db_name);
   public function connect(){
