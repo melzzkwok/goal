@@ -79,6 +79,16 @@ update goal where goal_id = goal_id
         goal_reminder**  
 ![editgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/editgoal.PNG)
 
+delete:  
+http://melvin.southeastasia.cloudapp.azure.com/api/goal/deletegoal  
+```
+"SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_id = $goal_id
+"DELETE FROM goal.goal WHERE user_id = :user_id AND goal_id = :goal_id 
+```
+**params: user_id, 
+        goal_id**  
+![deletegoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/deletegoal.PNG)
+
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/updategoalcurrentunit  
 update goal_current_unit where goal_id = goal_id  
