@@ -129,7 +129,13 @@ insert progress.progress_unit, progress.goal_id into progress where progress.goa
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalgraph  
-select progress.progress_date, progress.progress_unit, progress.goal_id from progress where goal.goal_complete = 0  
+```
+SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_unitType, goal.goal_frequency, goal.activity_id, activity_list.activity_name, goal.user_id
+FROM goal.goal JOIN goal.activity_list WHERE goal.user_id = $user_id AND goal.goal_complete = '0' AND goal.activity_id = activity_list.activity_id  
+
+SELECT DATE(progress.progress_date) as progress_date, progress.progress_unit
+FROM goal.progress JOIN goal.goal WHERE goal.goal_id = progress.goal_id AND progress.goal_id = $goal_id AND goal.user_id = $user_id AND goal.goal_complete = '0'
+```
 // to plot the graph progress of each goal  
 **params: user_id**  
 ![goalgraph](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/goalgraph.PNG)
