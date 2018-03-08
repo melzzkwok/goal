@@ -460,8 +460,8 @@ $app->post("/api/goal/goalgraph", function (Request $request, Response $response
 
     $user_id = $request->getParam('user_id');
 
-    $select1 = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_unitType, goal.goal_frequency, goal.activity_id, goal.user_id
-    FROM goal.goal WHERE goal.user_id = $user_id AND goal.goal_complete = '0'";
+    $select1 = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_unitType, goal.goal_frequency, goal.activity_id, activity_list.activity_name, goal.user_id
+    FROM goal.goal JOIN goal.activity_list WHERE goal.user_id = $user_id AND goal.goal_complete = '0' AND goal.activity_id = activity_list.activity_id";
 
     try {
       //GET DB OBJECT
@@ -501,6 +501,7 @@ $app->post("/api/goal/goalgraph", function (Request $request, Response $response
             "goal_frequency" =>  $result1[$i]->goal_frequency,
             "goal_progress" => $result2,
             "activity_id" =>  $result1[$i]->activity_id,
+            "activity_name" =>  $result1[$i]->activity_name,
             "user_id" =>  $result1[$i]->user_id];
 
             array_push($rows, $goal_detail);
