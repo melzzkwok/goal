@@ -145,7 +145,7 @@ http://melvin.southeastasia.cloudapp.azure.com/api/reward/rewardall
 ```
 SELECT * FROM goal.goal_reward ORDER BY reward_id
 ```
-// display all rewards user have unlocked  
+// display all rewards  
 
 ![rewardall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/rewardall.PNG)
 
