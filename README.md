@@ -82,8 +82,8 @@ update goal where goal_id = goal_id
 delete:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/deletegoal  
 ```
-"SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_id = $goal_id
-"DELETE FROM goal.goal WHERE user_id = :user_id AND goal_id = :goal_id 
+SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_id = $goal_id
+DELETE FROM goal.goal WHERE user_id = :user_id AND goal_id = :goal_id 
 ```
 **params: user_id, 
         goal_id**  
