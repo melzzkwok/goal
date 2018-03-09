@@ -336,7 +336,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
  		echo '{"goal_current_unit":';
     echo json_encode($goal_current_unit);
-    echo '"}';
+    echo '}';
 
 	 }
 	 catch(PDOException $e)
@@ -348,7 +348,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 });
 
 //set goal to completed
-$app->put('/api/goal/setgoalcompete', function(Request $request, Response $response){
+$app->put('/api/goal/setcompletegoal', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
 
@@ -484,8 +484,10 @@ $app->post("/api/goal/goalgraph", function (Request $request, Response $response
         for($i=0; $i<=($count1-1); $i++){
           $goal_id = $result1[$i]->goal_id;
           //echo json_encode($goal_id);
-          $select2 = "SELECT DATE(progress.progress_date) as progress_date, progress.progress_unit
+          $select2 = "SELECT DAY(progress.progress_date) as progress_day, progress.progress_unit
           FROM goal.progress JOIN goal.goal WHERE goal.goal_id = progress.goal_id AND progress.goal_id = $goal_id AND goal.user_id = $user_id AND goal.goal_complete = '0'";
+          // $select2 = "SELECT progress.progress_day, progress.progress_unit
+          // FROM goal.progress JOIN goal.goal WHERE goal.goal_id = progress.goal_id AND progress.goal_id = $goal_id AND goal.user_id = $user_id AND goal.goal_complete = '0'";
           $stmt2 = $db->query($select2);
           $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
           $count2 = $stmt2->rowCount();
