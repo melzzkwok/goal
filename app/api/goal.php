@@ -336,7 +336,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 
  		echo '{"goal_current_unit":';
     echo json_encode($goal_current_unit);
-    echo '"}';
+    echo '}';
 
 	 }
 	 catch(PDOException $e)
@@ -348,7 +348,7 @@ $app->put('/api/goal/updategoalcurrentunit', function(Request $request, Response
 });
 
 //set goal to completed
-$app->put('/api/goal/setgoalcompete', function(Request $request, Response $response){
+$app->put('/api/goal/setcompletegoal', function(Request $request, Response $response){
 
   $goal_id = $request->getParam('goal_id');
 
