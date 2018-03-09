@@ -115,7 +115,10 @@ update goal_complete where goal_id = goal_id
 put:  
 http://melvin.southeastasia.cloudapp.azure.com/api/goal/goalreadd  
 update goal_complete where goal_id = goal_id  
-//set goal_complete to 0(goal not completed)  
+```
+UPDATE goal.goal SET goal_complete = '0', goal_current_unit = '0' WHERE goal_id = :goal_id
+```
+//set goal_complete to 0(goal not completed) and goal_current_unit  
 //re add goal that was completed  
 **params: goal_id**  
 ![readdgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/readdgoal.PNG)
