@@ -155,12 +155,22 @@ SELECT * FROM goal.goal_reward ORDER BY reward_id
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/reward/userreward  
 ```
-SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img
-FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id ORDER BY goal_reward.reward_id
+SELECT * FROM goal.goal_reward WHERE EXISTS
+(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id
 ```
 // display all rewards user have unlocked  
 **params: user_id**  
 ![userreward](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userreward.PNG)
+
+post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/userrewardlock  
+```
+SELECT * FROM goal.goal_reward WHERE NOT EXISTS
+(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id
+```
+// display all rewards user have not unlocked  
+**params: user_id**  
+![userrewardlock](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userrewardlock.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/reward/redeemreward  
@@ -182,7 +192,7 @@ if ($count == null){
           SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, 
           goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND 
           user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
-          echo '{"NOTICE":"reward redeem"}'
+          //echo '{"NOTICE":"reward redeem"}'
         }
 
         else {
@@ -195,7 +205,7 @@ if ($count == null){
         SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, 
         goal_reward.reward_img FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND 
         user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id
-        echo '{"NOTICE":"reward already redeemed"}'
+        //echo '{"NOTICE":"reward already redeemed"}'
       }
     }
 ```
