@@ -33,8 +33,10 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
 
   $user_id = $request->getParam('user_id');
 
-  $sql = "SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img
-	FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id ORDER BY goal_reward.reward_id";
+  //$sql = "SELECT user_reward.userReward_id, goal_reward.reward_id, goal_reward.reward_name, goal_reward.reward_description, goal_reward.reward_img
+	//FROM goal.user_reward JOIN goal.goal_reward WHERE user_id = $user_id AND user_reward.reward_id = goal_reward.reward_id ORDER BY goal_reward.reward_id";
+	$sql = "SELECT * FROM goal.goal_reward WHERE EXISTS
+	(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id)";
 
   try {
     //GET DB OBJECT
@@ -44,10 +46,58 @@ $app->post('/api/reward/userreward', function(Request $request, Response $respon
 
     $stmt = $db->query($sql);
 
+		$count1 = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     $db = null;
-    echo json_encode($result);
+
+		if ($count1 == null){
+      echo '{"NOTICE":"You have not unlocked any reward yet"}';
+    }
+		else {
+			//echo json_encode($result);
+			$response->withHeader('Content-Type', 'application/json');
+			$response->write(json_encode($result));
+		}
+
+  }
+  catch(PDOException $e)
+  {
+   echo '{"error":'.$e->getMessage().'}';
+
+  }
+
+});
+
+// display all rewards user have not unlocked
+$app->post('/api/reward/userrewardlock', function(Request $request, Response $response){
+
+  $user_id = $request->getParam('user_id');
+
+  $sql = "SELECT * FROM goal.goal_reward WHERE NOT EXISTS
+	(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id)";
+
+  try {
+    //GET DB OBJECT
+    $db = new db();
+    //connect
+    $db = $db->connect();
+
+    $stmt = $db->query($sql);
+
+		$count1 = $stmt->rowCount();
+    $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    $db = null;
+
+		if ($count1 == null){
+      echo '{"NOTICE":"You have unlocked all rewards available"}';
+    }
+		else {
+			//echo json_encode($result);
+			$response->withHeader('Content-Type', 'application/json');
+			$response->write(json_encode($result));
+		}
   }
   catch(PDOException $e)
   {
