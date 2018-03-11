@@ -170,7 +170,7 @@ SELECT * FROM goal.goal_reward WHERE NOT EXISTS
 ```
 // display all rewards user have not unlocked  
 **params: user_id**  
-![userreward](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userrewardlock.PNG)
+![userrewardlock](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userrewardlock.PNG)
 
 post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/reward/redeemreward  
