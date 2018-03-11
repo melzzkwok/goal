@@ -28,6 +28,76 @@ $app->get('/api/reward/rewardall', function(Request $request, Response $response
 
 });
 
+// display all rewards user have unlocked and lock
+$app->post('/api/reward/userrewardlist', function(Request $request, Response $response){
+
+  $user_id = $request->getParam('user_id');
+
+  $select1 = "SELECT * FROM goal.goal_reward WHERE EXISTS
+	(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id)";
+	$select2 = "SELECT * FROM goal.goal_reward WHERE NOT EXISTS
+	(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id)";
+
+  try {
+    //GET DB OBJECT
+    $db = new db();
+    //connect
+    $db = $db->connect();
+
+    $stmt1 = $db->query($select1);
+		$stmt2 = $db->query($select2);
+
+		$count1 = $stmt1->rowCount();
+		$count2 = $stmt2->rowCount();
+    $result1 = $stmt1->fetchAll(PDO::FETCH_OBJ);
+		$result2 = $stmt2->fetchAll(PDO::FETCH_OBJ);
+
+    $db = null;
+
+		if ($count1 == null){
+      echo '{"NOTICE":"You have unlocked all rewards available"}';
+    }
+		elseif ($count2 == null) {
+			echo '{"NOTICE":"You have unlocked all rewards available"}';
+		}
+		else {
+			$rows = array();
+			$status0 = "0";
+			$status1 = "1";
+			for ($i=0; $i<=($count1-1); $i++) {
+				$particular1 = ["reward_id" => $result1[$i]->reward_id,
+				"reward_name" => $result1[$i]->reward_name,
+				"reward_description" => $result1[$i]->reward_description,
+				"reward_img" => $result1[$i]->reward_img,
+				"reward_unlock_pts" => $result1[$i]->reward_unlock_pts,
+				"reward_status" => $status1];
+				//echo json_encode($particular1);
+				array_push($rows, $particular1);
+			}
+
+			for ($i=0; $i<=($count2-1); $i++) {
+				$particular2 = ["reward_id" => $result2[$i]->reward_id,
+				"reward_name" => $result2[$i]->reward_name,
+				"reward_description" => $result2[$i]->reward_description,
+				"reward_img" => $result2[$i]->reward_img,
+				"reward_unlock_pts" => $result2[$i]->reward_unlock_pts,
+				"reward_status" => $status0];
+				//echo json_encode($particular2);
+				array_push($rows, $particular2);
+			}
+			$response->withHeader('Content-Type', 'application/json');
+			$response->write(json_encode($rows));
+		}
+  }
+  catch(PDOException $e)
+  {
+   echo '{"error":'.$e->getMessage().'}';
+
+  }
+
+});
+
+
 // display all rewards user have unlocked
 $app->post('/api/reward/userreward', function(Request $request, Response $response){
 
@@ -154,7 +224,13 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
 					FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id";
           $stmt5 = $db->query($sql2);
           $result5 = $stmt5->fetchAll(PDO::FETCH_OBJ);
-          echo json_encode($result5);
+          //echo json_encode($result5);
+					$particular = ["userReward_id" => $result5[0]->userReward_id,
+					"reward_id" => $result5[0]->reward_id,
+					"reward_name" => $result5[0]->reward_name,
+					"reward_description" => $result5[0]->reward_description,
+					"reward_img" => $result5[0]->reward_img];
+					echo json_encode($particular);
           //echo '{"NOTICE":"reward redeem"}';
         }
 
@@ -169,7 +245,13 @@ $app->post('/api/reward/redeemreward', function(Request $request, Response $resp
 				FROM goal.user_reward JOIN goal.goal_reward WHERE user_reward.user_id = $user_id AND user_reward.reward_id = $reward_id AND user_reward.reward_id = goal_reward.reward_id";
         $stmt6 = $db->query($sql3);
         $result6 = $stmt6->fetchAll(PDO::FETCH_OBJ);
-        echo json_encode($result6);
+        //echo json_encode($result6);
+				$particular = ["userReward_id" => $result6[0]->userReward_id,
+				"reward_id" => $result6[0]->reward_id,
+				"reward_name" => $result6[0]->reward_name,
+				"reward_description" => $result6[0]->reward_description,
+				"reward_img" => $result6[0]->reward_img];
+				echo json_encode($particular);
         //echo '{"NOTICE":"reward already redeemed"}';
       }
     }

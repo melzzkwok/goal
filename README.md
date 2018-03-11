@@ -153,6 +153,22 @@ SELECT * FROM goal.goal_reward ORDER BY reward_id
 ![rewardall](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/rewardall.PNG)
 
 post:  
+http://melvin.southeastasia.cloudapp.azure.com/api/reward/userrewardlist  
+```
+SELECT * FROM goal.goal_reward WHERE EXISTS
+(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id
+SELECT * FROM goal.goal_reward WHERE NOT EXISTS
+(SELECT user_reward.reward_id FROM goal.user_reward WHERE reward_id = goal_reward.reward_id AND user_id = $user_id
+
+reward_status = 1 //reward unlocked
+reward_status = 0 //reward locked
+```
+// display all rewards user have unlocked and lock  
+**params: user_id**  
+![userrewardlist](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/userrewardlist.PNG)
+
+
+post:  
 http://melvin.southeastasia.cloudapp.azure.com/api/reward/userreward  
 ```
 SELECT * FROM goal.goal_reward WHERE EXISTS
