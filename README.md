@@ -55,7 +55,8 @@ insert goal where goal_id = goal_id
         goal_startdate, 
         goal_enddate, 
         goal_reminder, 
-        activity_id, 
+        activity_id,
+        cat_id,
         user_id**  
 ![addgoal](https://raw.githubusercontent.com/melzzkwok/goal/my-edit/screenshot/addgoal.PNG)
         

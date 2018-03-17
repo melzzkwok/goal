@@ -7,8 +7,8 @@ $app->post("/api/goal/user", function (Request $request, Response $response) {
 
     $user_id = $request->getParam('user_id');
 
-    $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, goal.user_id
-    FROM goal.goal JOIN goal.activity_list WHERE goal.user_id = $user_id AND goal.activity_id = activity_list.activity_id AND goal.goal_complete = '0'";
+    $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, category_list.cat_id, category_list.cat_name, goal.user_id
+    FROM goal.goal JOIN goal.activity_list JOIN goal.category_list WHERE goal.user_id = $user_id AND goal.activity_id = activity_list.activity_id AND goal.cat_id = category_list.cat_id AND goal.goal_complete = '0'";
 
     try {
       //GET DB OBJECT
@@ -36,8 +36,8 @@ $app->post("/api/goal/userhistory", function (Request $request, Response $respon
 
     $user_id = $request->getParam('user_id');
 
-    $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, goal.user_id
-    FROM goal.goal JOIN goal.activity_list WHERE goal.user_id = $user_id AND goal.activity_id = activity_list.activity_id AND goal.goal_complete = '1'";
+    $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, category_list.cat_id, category_list.cat_name, goal.user_id
+    FROM goal.goal JOIN goal.activity_list JOIN goal.category_list WHERE goal.user_id = $user_id AND goal.activity_id = activity_list.activity_id AND goal.cat_id = category_list.cat_id AND goal.goal_complete = '1'";
 
     try {
       //GET DB OBJECT
@@ -97,10 +97,11 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
   $goal_enddate = $request->getParam('goal_enddate');
   $goal_reminder = $request->getParam('goal_reminder');
   $activity_id = $request->getParam('activity_id');
+  $cat_id = $request->getParam('cat_id');
   $user_id = $request->getParam('user_id');
 
-	 $sql = "INSERT INTO goal.goal(goal_description, goal_unit, goal_current_unit, goal_unitType, goal_frequency, goal_priority, goal_startdate, goal_enddate, goal_reminder, goal_complete_pts, goal_complete, activity_id, user_id)
-   VALUES (:goal_description, :goal_unit, '0', :goal_unitType, :goal_frequency, :goal_priority, :goal_startdate, :goal_enddate, :goal_reminder, '0', '0', :activity_id, :user_id)";
+	 $sql = "INSERT INTO goal.goal(goal_description, goal_unit, goal_current_unit, goal_unitType, goal_frequency, goal_priority, goal_startdate, goal_enddate, goal_reminder, goal_complete_pts, goal_complete, activity_id, cat_id, user_id)
+   VALUES (:goal_description, :goal_unit, '0', :goal_unitType, :goal_frequency, :goal_priority, :goal_startdate, :goal_enddate, :goal_reminder, '0', '0', :activity_id, :cat_id, :user_id)";
 
 	 try {
 	 	//GET DB OBJECT
@@ -119,6 +120,7 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
     $stmt->bindParam(':goal_enddate', $goal_enddate);
     $stmt->bindParam(':goal_reminder', $goal_reminder);
     $stmt->bindParam(':activity_id', $activity_id);
+    $stmt->bindParam(':cat_id', $cat_id);
     $stmt->bindParam(':user_id', $user_id);
 
  		$stmt->execute();
@@ -141,9 +143,10 @@ $app->post('/api/goal/add', function(Request $request, Response $response){
 $app->post("/api/goal/goaltoedit", function (Request $request, Response $response) {
 
     $goal_id = $request->getParam('goal_id');
+    $user_id = $request->getParam('user_id');
 
     $select = "SELECT goal.goal_id, goal.goal_description, goal.goal_unit, goal.goal_current_unit, goal.goal_unitType, goal.goal_frequency, goal.goal_priority, goal.goal_startdate, goal.goal_enddate, goal.goal_reminder, goal.goal_complete_pts, goal.goal_complete, goal.activity_id, activity_list.activity_name, goal.user_id
-    FROM goal.goal JOIN goal.activity_list WHERE goal.goal_id = $goal_id AND goal.activity_id = activity_list.activity_id";
+    FROM goal.goal JOIN goal.activity_list WHERE goal.goal_id = $goal_id AND goal.user_id = $user_id AND goal.activity_id = activity_list.activity_id";
 
     try {
       //GET DB OBJECT
@@ -178,6 +181,7 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
   $goal_startdate = $request->getParam('goal_startdate');
   $goal_enddate = $request->getParam('goal_enddate');
   $goal_reminder = $request->getParam('goal_reminder');
+  $user_id = $request->getParam('user_id');
 
 	 $sql = "UPDATE goal.goal SET
 	 goal_description = :goal_description ,
@@ -189,7 +193,7 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
    goal_startdate = :goal_startdate ,
    goal_enddate = :goal_enddate ,
    goal_reminder = :goal_reminder
-   WHERE goal_id = :goal_id";
+   WHERE goal_id = :goal_id AND user_id = :user_id";
 
 	 try {
 	 	//GET DB OBJECT
@@ -208,6 +212,7 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
     $stmt->bindParam(':goal_startdate', $goal_startdate);
     $stmt->bindParam(':goal_enddate', $goal_enddate);
     $stmt->bindParam(':goal_reminder', $goal_reminder);
+    $stmt->bindParam(':user_id', $user_id);
 
  		$stmt->execute();
 
@@ -222,13 +227,13 @@ $app->put('/api/goal/editgoal', function(Request $request, Response $response){
 
 });
 
-$app->delete('/api/goal/deletegoal', function(Request $request, Response $response){
+$app->post('/api/goal/deletegoal', function(Request $request, Response $response){
 
    $user_id = $request->getParam('user_id');
    $goal_id = $request->getParam('goal_id');
 
    $sql1 = "SELECT * FROM goal.goal WHERE user_id = $user_id AND goal_id = $goal_id";
-	 $sql2 = "DELETE FROM goal.goal WHERE user_id = :user_id AND goal_id = :goal_id";
+	 $sql2 = "DELETE FROM goal.goal WHERE goal.user_id = :user_id AND goal.goal_id = :goal_id";
 
 	 try {
 	 	//GET DB OBJECT
